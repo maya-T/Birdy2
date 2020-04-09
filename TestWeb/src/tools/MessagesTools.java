@@ -135,7 +135,7 @@ public class MessagesTools {
 		return cursor.hasNext();
 	}
 	
-       public static void addComment (int id, int idC, String comment) {
+       public static void addComment (String _id, int idC, String comment) {
 		
 			MongoDatabase db = Database.getMongoDBConnection();
 			MongoCollection<Document> coll = db.getCollection("message");
@@ -146,7 +146,7 @@ public class MessagesTools {
 		    proj.append("count",1);
 		    proj.append("_id", 0);
 		    
-			find.append("author_id", id);
+			find.append("_id", new ObjectId(_id));
 			
 			MongoCursor<Document> cursor =  coll.find(find).projection(proj).iterator();
 			int count = 0;
@@ -173,7 +173,6 @@ public class MessagesTools {
 			
 			push.append("$inc", inc);
 	
-	        System.out.println(push.toString());
 		    coll.updateOne(find, push);
 			
      	
@@ -193,8 +192,8 @@ public class MessagesTools {
 		MongoCursor<Document> cursor =  messages.find(query).projection(proj).iterator();
 		
 		if(cursor.hasNext()) {
-		JSONObject result=new JSONObject(cursor.next());	
-		return result;
+		 JSONObject result=new JSONObject(cursor.next());	
+		 return result;
 		}
 		return new JSONObject();
 	}
@@ -221,6 +220,34 @@ public class MessagesTools {
 				
 	}
 	
+	public static boolean commentExists(String _id, int _idC) {
+		
+		if(messageExists(_id)) {
+			
+			MongoDatabase db = Database.getMongoDBConnection();
+			MongoCollection<Document> messages = db.getCollection("message");
+			
+			Document query = new Document();
+			Document proj = new Document();
+			
+		    proj.append("comments",1);
+		    proj.append("_id", 0); 
+			query.append("_id", new ObjectId(_id));
+			
+			
+			MongoCursor<Document> cursor =  messages.find(query).projection(proj).iterator();
+		
+			@SuppressWarnings("unchecked")
+			List<Document> comments = (List<Document>) cursor.next().get("comments");
+			for(Document cmnt: comments) {
+				if(cmnt.getInteger("_idC") == _idC) {
+					return true;
+				}
+			}
+			
+		}
+		return false;		
+	}
 	
 
 

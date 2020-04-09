@@ -8,7 +8,9 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="/Users/Maya/Downloads/mysql-connector-java-8.0.18.jar"/>
-	<classpathentry kind="lib" path="/Users/Maya/Downloads/json-org.jar"/>
+	<classpathentry kind="lib" path="/Users/Maya/Documents/webLibraries/json-org.jar"/>
+	<classpathentry kind="lib" path="/Users/Maya/Documents/webLibraries/mysql-connector-java-8.0.18.jar"/>
+	<classpathentry kind="lib" path="/Users/Maya/Documents/webLibraries/mongo-java-driver-3.10.1.jar"/>
+	<classpathentry kind="lib" path="/Users/Maya/Documents/webLibraries/servlet-api.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

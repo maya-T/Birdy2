@@ -30,7 +30,7 @@ public class MessageServices {
 	}
 	
 	public static JSONObject listMessages(String login,String filter) {
-		if(login == null ) {
+		if(login == null || filter == null ) {
 			return ErrorTools.serviceRefused("Mauvais argument", 0);
 		}
 
@@ -44,7 +44,7 @@ public class MessageServices {
 	
 	public static JSONObject addMessage(String login,String message) {
 		
-		if(login == null ) {
+		if(login == null || message == null) {
 			return ErrorTools.serviceRefused("Mauvais argument", 0);
 		}
 
@@ -57,18 +57,17 @@ public class MessageServices {
 	
 	}
 	
-	public static JSONObject deleteMessage(String login, String message) {
+	public static JSONObject deleteMessage(String _id) {
 		
-		if(login == null || message == null ) {
+		if(_id == null ) {
 			return ErrorTools.serviceRefused("Mauvais argument", 0);
 		}
 
-		if(!UserTools.isUser(login)) {
-			return ErrorTools.serviceRefused("Login inexistant", 1);
+		if(!MessagesTools.messageExists(_id)) {
+			return ErrorTools.serviceRefused("Message inexistant", 9);
 		}
 		
-		int id = UserTools.userID(login);
-		//MessagesTools.deleteMessage(id,message);
+		MessagesTools.deleteMessage(_id);
 		return ErrorTools.serviceAccepted();
 			  
 	}
@@ -80,9 +79,38 @@ public class MessageServices {
 		if(! MessagesTools.messageExists(_id)) {
 			return ErrorTools.serviceRefused("Message inexistant", 8);
 		}
-		return MessagesTools.getComments(_id);
-		
+		return MessagesTools.getComments(_id);	
 	}
 	
+	public static JSONObject addComment(String _id, String login, String comment) {
+		
+		if(login == null || _id == null || comment == null) {
+			return ErrorTools.serviceRefused("Mauvais argument", 0);
+		}
+		if(!MessagesTools.messageExists(_id)) {
+			return ErrorTools.serviceRefused("Message inexistant", 9);
+		}
+		if(!UserTools.isUser(login)) {
+			return ErrorTools.serviceRefused("Login inexistant", 1);
+		}
+		int idC = UserTools.userID(login);
+		MessagesTools.addComment(_id, idC, comment);
+		return ErrorTools.serviceAccepted();	
+	}
+	
+	public static JSONObject deleteComment(String _id, int _idC) {
+			
+			if(_id == null) {
+				return ErrorTools.serviceRefused("Mauvais argument", 0);
+			}
+			if(!MessagesTools.messageExists(_id)) {
+				return ErrorTools.serviceRefused("Message inexistant", 9);
+			}
+			if(!MessagesTools.commentExists(_id, _idC)) {
+				return ErrorTools.serviceRefused("Message inexistant", 9);
+			}
+			MessagesTools.deleteComment(_id, _idC);
+			return ErrorTools.serviceAccepted();	
+		}
 
 }

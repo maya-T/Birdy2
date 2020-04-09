@@ -37,9 +37,9 @@ public class TestMango {
 //		System.out.println(j);
 //		JSONObject j2=MessagesTools.getLatestMessages(2);	
 //		System.out.println(j2);
-//		MessagesTools.insertMessage(200, "message");
-//		MessagesTools.addComment(200 , 51, "hello");
-//		MessagesTools.addComment(200, 52, "helloo");
-		MessagesTools.deleteComment("5e8f6c8572ee0d35daf95cc8",1);	}
+//		MessagesTools.addComment( "5e8f6c8572ee0d35daf95cc8", 60 , "hello");
+//		MessagesTools.addComment("5e8f6c8572ee0d35daf95cc8", 52, "helloo");
+		System.out.println(MessagesTools.commentExists("5e8f6c8572ee0d35daf95cc8",0));	
+		}
 
 }
