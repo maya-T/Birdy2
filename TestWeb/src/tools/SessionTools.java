@@ -88,5 +88,24 @@ public class SessionTools {
 	}
 	return false;
 	}
+	
+	public static void updateSession(String sessionKey)
+	{
+		 Connection c;
+			try {
+				c = Database.getMySQLConnection();
+				java.util.Date javaDate = new java.util.Date();
+				long javaTime = javaDate.getTime();
+				java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(javaTime);
+				String query = "UPDATE sessions SET date ='"+sqlTimestamp+"'"+"WHERE sessionKey='"+sessionKey+"'";
+				Statement stm = c.createStatement();
+				int res = stm.executeUpdate(query);
+				System.out.println(res);
+	}
+			catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
 
 }

@@ -39,7 +39,6 @@ public class MessagesTools {
 	}
 
 	public static JSONObject getMessages(int id, String filter) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -111,8 +110,10 @@ public class MessagesTools {
 		GregorianCalendar calendar= new java.util.GregorianCalendar();
 		Date date=calendar.getTime();
 		doc.append("date", date);
-		ArrayList <JSONObject> list=new ArrayList<JSONObject>();
-		doc.append("comments",list);
+		ArrayList <JSONObject> listc=new ArrayList<JSONObject>();
+		doc.append("comments",listc);
+		ArrayList <JSONObject> listl=new ArrayList<JSONObject>();
+		doc.append("likes",listl);
 		coll.insertOne(doc);
 		
 		
@@ -222,38 +223,99 @@ public class MessagesTools {
 	
 	public static boolean commentExists(String _id, int _idC) {
 		
-		if(messageExists(_id)) {
-			
-			MongoDatabase db = Database.getMongoDBConnection();
-			MongoCollection<Document> messages = db.getCollection("message");
-			
-			Document query = new Document();
-			Document proj = new Document();
-			
-		    proj.append("comments",1);
-		    proj.append("_id", 0); 
-			query.append("_id", new ObjectId(_id));
-			
-			
-			MongoCursor<Document> cursor =  messages.find(query).projection(proj).iterator();
+		MongoDatabase db = Database.getMongoDBConnection();
+		MongoCollection<Document> messages = db.getCollection("message");
 		
-			@SuppressWarnings("unchecked")
-			List<Document> comments = (List<Document>) cursor.next().get("comments");
-			for(Document cmnt: comments) {
-				if(cmnt.getInteger("_idC") == _idC) {
-					return true;
-				}
+		Document query = new Document();
+		Document proj = new Document();
+		
+	    proj.append("comments",1);
+	    proj.append("_id", 0); 
+		query.append("_id", new ObjectId(_id));
+		
+		
+		MongoCursor<Document> cursor =  messages.find(query).projection(proj).iterator();
+	
+		@SuppressWarnings("unchecked")
+		List<Document> comments = (List<Document>) cursor.next().get("comments");
+		for(Document cmnt: comments) {
+			if(cmnt.getInteger("_idC") == _idC) {
+				return true;
 			}
-			
 		}
+		
 		return false;		
 	}
 	
-
-
+	public static void addLike(String _id, int idL)
+	{  
+	   MongoDatabase db = Database.getMongoDBConnection();
+	   MongoCollection<Document> coll = db.getCollection("message");
+	   
+       Document modif = new Document();
+	   modif.append("likes", idL);
+		
+		
+	   Document push = new Document();
+	   push.append("$push", modif);
+	   coll.updateOne(new Document("_id", new ObjectId(_id)), push);
+		
+	}
 	
+	public static void unLike(String _id, int idL)
+	{
+		 MongoDatabase db = Database.getMongoDBConnection();
+		   MongoCollection<Document> coll = db.getCollection("message");
+	       Document modif = new Document();
+		   modif.append("likes", idL);
+			
+			
+		    Document push = new Document();
+			push.append("$pull", modif);
+			
+			coll.updateOne(new Document("_id", new ObjectId(_id)), push);
+	}
 
+	public static boolean likeExists(String _id, int _idL) {
+		MongoDatabase db = Database.getMongoDBConnection();
+		MongoCollection<Document> messages = db.getCollection("message");
+		
+		Document query = new Document();
+		Document proj = new Document();
+		
+	    proj.append("likes",1);
+	    proj.append("_id", 0); 
+		query.append("_id", new ObjectId(_id));
+		
+		
+		MongoCursor<Document> cursor =  messages.find(query).projection(proj).iterator();
 	
+		@SuppressWarnings("unchecked")
+		List<Integer> likes = (List<Integer>) cursor.next().get("likes");
+		for(int like: likes) {
+			if(like == _idL) {
+				return true;
+			}
+		}
+		
+		return false;		
+	}
 	
+	public static JSONObject getLikes(String _id) {
+		MongoDatabase db = Database.getMongoDBConnection();
+		MongoCollection<Document> messages = db.getCollection("message");
+		
+		Document query = new Document();
+		Document proj = new Document();
+		
+	    proj.append("likes",1);
+	    proj.append("_id", 0); 
+		query.append("_id", new ObjectId(_id));
+		
+		
+		MongoCursor<Document> cursor =  messages.find(query).projection(proj).iterator();
+	
+		return new JSONObject(cursor.next());
+	}
 	
 }
