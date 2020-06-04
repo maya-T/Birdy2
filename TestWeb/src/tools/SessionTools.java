@@ -19,7 +19,7 @@ public class SessionTools {
 				int c = (int) (Math.random()*ALPHA_NUMERIC_STRING.length());
 				builder.append(ALPHA_NUMERIC_STRING.charAt(c));
 			}
-
+            builder.append(id);
 			String key = builder.toString();
 
 			Connection c = Database.getMySQLConnection();
@@ -29,7 +29,7 @@ public class SessionTools {
 			String query = "INSERT INTO sessions values('"+ id +"','"+key+"','"+ sqlTimestamp +"')";
 			Statement stm = c.createStatement();
 			int res = stm.executeUpdate(query);
-
+			c.close();
 			return key;
 
 		}catch(SQLException e ) {
@@ -48,7 +48,9 @@ public class SessionTools {
 			String ajout="DELETE FROM sessions where id='"+id+"'";
 			Statement stmnt = c.createStatement();
 			int resultat =stmnt.executeUpdate(ajout);
+			c.close();
 			return resultat;
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -68,16 +70,13 @@ public class SessionTools {
 		if(res.next()) {
 			sqlTimestamp = res.getDate("date");
 		}
-		System.out.println(sqlTimestamp);
+		
 		java.util.Date javaDate = new java.util.Date();
 		long javaTime = javaDate.getTime();
-
 		int nbMinutes=30;
 		long timeSession=sqlTimestamp.getTime();
-		System.out.println(timeSession);
-		System.out.println(javaTime);
 		long somme=javaTime-nbMinutes*60*1000;
-		System.out.println(somme);
+		c.close();
 		if(timeSession>=somme) return true;
 		return false;
 
@@ -100,7 +99,7 @@ public class SessionTools {
 				String query = "UPDATE sessions SET date ='"+sqlTimestamp+"'"+"WHERE sessionKey='"+sessionKey+"'";
 				Statement stm = c.createStatement();
 				int res = stm.executeUpdate(query);
-				System.out.println(res);
+				c.close();
 	}
 			catch (SQLException e) {
 				// TODO Auto-generated catch block

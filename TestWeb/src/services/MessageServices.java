@@ -2,8 +2,12 @@ package services;
 
 
 
+import java.io.File;
+import java.io.InputStream;
+
 import org.json.JSONObject;
 
+import mapReduce.MapReduce;
 import tools.ErrorTools;
 import tools.UserTools;
 import tools.MessagesTools;
@@ -16,7 +20,7 @@ public class MessageServices {
 		
 	}
 	
-	public static JSONObject listMessages(String login) {
+	public static JSONObject listUserMessages(String login) {
 		if(login == null ) {
 			return ErrorTools.serviceRefused("Mauvais argument", 0);
 		}
@@ -25,32 +29,40 @@ public class MessageServices {
 			return ErrorTools.serviceRefused("Login inexistant", 1);
 		}
 		int id = UserTools.userID(login);
-		return MessagesTools.getMessages(id);
+		return MessagesTools.getUserMessages(id);
 		
 	}
 	
-	
-	
-	public static JSONObject listMessages(String login,String filter) {
-		if(login == null || filter == null ) {
+	public static JSONObject listUserNFriendsMessages(String login) {
+		if(login == null ) {
 			return ErrorTools.serviceRefused("Mauvais argument", 0);
 		}
 
-		if( !UserTools.isUser(login) ) {
+		if(!UserTools.isUser(login)) {
 			return ErrorTools.serviceRefused("Login inexistant", 1);
 		}
 		int id = UserTools.userID(login);
-		return MessagesTools.getMessages(id,filter);
+		return MessagesTools.getUserNFriendsMessages(id);
 		
 	}
+	
+	
+	public static JSONObject searchMessages(String filter) {
+
+		if( filter==null  ) {
+			return ErrorTools.serviceRefused("Mauvais argument", 0);
+		}
+		return MapReduce.getMessages(filter);
+	}
+	
 	
 	public static JSONObject listMessages(int limit) {
 		
-		return MessagesTools.getMessages(limit);
+		return MessagesTools.getLatestMessages(limit);
 		
 	}
 	
-	public static JSONObject addMessage(String login,String message) {
+	public static JSONObject addMessage(String login,String message,File image) {
 		
 		if(login == null || message == null) {
 			return ErrorTools.serviceRefused("Mauvais argument", 0);
@@ -60,8 +72,8 @@ public class MessageServices {
 			return ErrorTools.serviceRefused("Login inexistant", 1);
 		}
 		int id = UserTools.userID(login);
-		MessagesTools.insertMessage(id,message);
-		return ErrorTools.serviceAccepted();
+		MessagesTools.insertMessage(id,message,image);
+		return ErrorTools.serviceAccepted("message","New post added");
 	
 	}
 	
@@ -136,13 +148,14 @@ public class MessageServices {
 		return ErrorTools.serviceAccepted();	
 	}
 	
-	public static JSONObject unlike(String _id, int idL) {
-		if(_id == null) {
+	public static JSONObject unlike(String _id, String login) {
+		if(login == null) {
 			return ErrorTools.serviceRefused("Mauvais argument", 0);
 		}
 		if(!MessagesTools.messageExists(_id)) {
 			return ErrorTools.serviceRefused("Message inexistant", 9);
 		}
+		int idL=UserTools.userID(login);
 		if(!MessagesTools.likeExists(_id, idL)) {
 			return ErrorTools.serviceRefused("Like inexistant", 10);
 		}

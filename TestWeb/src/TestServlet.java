@@ -27,7 +27,7 @@ public class TestServlet extends HttpServlet {
 		throws ServletException, IOException {
 		PrintWriter writer = res.getWriter();
 		writer.println("Hello World 111333");
-		JSONObject j = MessagesTools.getMessages(17);
+		JSONObject j = MessagesTools.getUserMessages(17);
 		writer.print(j.toString());
 	}
 

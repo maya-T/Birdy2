@@ -12,5 +12,10 @@
 	<classpathentry kind="lib" path="/Users/Maya/Documents/webLibraries/mysql-connector-java-8.0.18.jar"/>
 	<classpathentry kind="lib" path="/Users/Maya/Documents/webLibraries/mongo-java-driver-3.10.1.jar"/>
 	<classpathentry kind="lib" path="/Users/Maya/Documents/webLibraries/servlet-api.jar"/>
+	<classpathentry kind="lib" path="/Users/Maya/Downloads/commons-fileupload-1.4-bin/commons-fileupload-1.4.jar"/>
+	<classpathentry kind="lib" path="/Users/Maya/Downloads/commons-fileupload-1.4-bin/commons-fileupload-1.4-sources.jar"/>
+	<classpathentry kind="lib" path="/Users/Maya/Downloads/commons-io-2.6/commons-io-2.6.jar"/>
+	<classpathentry kind="lib" path="/Users/Maya/Downloads/commons-codec-1.14/commons-codec-1.14.jar"/>
+	<classpathentry kind="lib" path="/Users/Maya/Documents/webLibraries/javax.websocket-api-1.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

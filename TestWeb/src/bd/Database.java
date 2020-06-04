@@ -67,5 +67,10 @@ public class Database {
 		MongoClient mongo = MongoClients.create("mongodb://localhost:27017");
 		return mongo.getDatabase(DBStatic.mongo_bd);
 	}
+	public static MongoClient getMongoClient()  {
+		return MongoClients.create("mongodb://localhost:27017");
+		
+	}
+	
 
 }

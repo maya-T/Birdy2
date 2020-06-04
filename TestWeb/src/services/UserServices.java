@@ -2,6 +2,8 @@ package services;
 
 
 
+import java.io.File;
+
 import org.json.JSONObject;
 
 import tools.ErrorTools;
@@ -38,7 +40,11 @@ public class UserServices {
 			}
 			int id=UserTools.userID(login);
 			String key=SessionTools.insertSession(id);
-			return ErrorTools.serviceAccepted("key", key);
+			JSONObject info = UserTools.getUserInfo(id);
+			JSONObject result = new JSONObject ();
+			result.put("key",key);
+			result.put("info", info );
+			return ErrorTools.serviceAccepted("loginInfo", result);
 		}catch(Exception e) {
 			print("erreur");
 		}
@@ -50,9 +56,62 @@ public class UserServices {
 //			//pour l'instant on n'a qu'une seule session ouverte a la fois, si cd n'est pas le cas passer key, puisque un id peut avoir plusieurs key
 //			UserTools.deleteSession(id);
 //	}
+	
+	public static JSONObject updateBio(String login, String bio) {
+		if( login==null || bio==null) {
+			return ErrorTools.serviceRefused("Mauvais argument", 0);
+		}
+		if(!UserTools.isUser(login)) {
+			return ErrorTools.serviceRefused("Login inexistant", 1);
+		}
+
+		int id = UserTools.userID(login);
+		UserTools.updateBio(id, bio);
+		return ErrorTools.serviceAccepted("message","bio modifiee");
+	}
+	
+	public static JSONObject updateAdress(String login, String adress) {
+		if( login==null || adress==null) {
+			return ErrorTools.serviceRefused("Mauvais argument", 0);
+		}
+		if(!UserTools.isUser(login)) {
+			return ErrorTools.serviceRefused("Login inexistant", 1);
+		}
+
+		int id = UserTools.userID(login);
+		UserTools.updateAdress(id, adress);
+		return ErrorTools.serviceAccepted("message","adresse modifiee");
+	}
+	
+	public static JSONObject updateWebsite(String login, String website) {
+		if( login==null || website==null) {
+			return ErrorTools.serviceRefused("Mauvais argument", 0);
+		}
+		if(!UserTools.isUser(login)) {
+			return ErrorTools.serviceRefused("Login inexistant", 1);
+		}
+
+		int id = UserTools.userID(login);
+		UserTools.updateWebsite(id, website);
+		return ErrorTools.serviceAccepted("message","website modifie");
+	}
 
 	public static void print(String msg) {
 		System.out.println(msg);
+	}
+
+	public static JSONObject updatePicture(String login, File file) {
+		
+		if( login==null) {
+			return ErrorTools.serviceRefused("Mauvais argument", 0);
+		}
+		if(!UserTools.isUser(login)) {
+			return ErrorTools.serviceRefused("Login inexistant", 1);
+		}
+
+		int id = UserTools.userID(login);
+		UserTools.updatePicture(id, file);
+		return ErrorTools.serviceAccepted("message","photo modifiee");
 	}
 
 }

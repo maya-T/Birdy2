@@ -774,6 +774,22 @@ standard deployment descriptor.
 -->
 <web-app xmlns:web="http://xmlns.jcp.org/xml/ns/javaee">
   <display-name>TestTomcat</display-name>
+  
+  <context-param> 
+      <description>Location to store uploaded file</description> 
+      <param-name>file-upload</param-name> 
+      <param-value>
+         /Users/Maya/Documents/apache-tomcat-9.0.30/webapps/images
+      </param-value> 
+   </context-param>
+   
+   <multipart-config>
+   <!-- 50MB max -->
+    <max-file-size>52428800</max-file-size>
+   <max-request-size>52428800</max-request-size>
+    <file-size-threshold>0</file-size-threshold>
+  </multipart-config>
+   
   <servlet>
     <servlet-name>Test</servlet-name>
     <servlet-class>TestServlet</servlet-class>
@@ -793,32 +809,127 @@ standard deployment descriptor.
     <url-pattern>/Test2</url-pattern> 
   </servlet-mapping>
   
-    <servlet>
-    <servlet-name>signUp</servlet-name>
-    <servlet-class>servlets.UserServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>signUp</servlet-name>
-    <url-pattern>/signUp/*</url-pattern> 
-  </servlet-mapping>
+ 
   
   <servlet>
-    <servlet-name>Auth</servlet-name>
+    <servlet-name>Login</servlet-name>
     <servlet-class>servlets.AuthServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Auth</servlet-name>
-    <url-pattern>/Auth/*</url-pattern> 
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/Login/*</url-pattern> 
   </servlet-mapping>
   
   <servlet>
-    <servlet-name>Comments</servlet-name>
-    <servlet-class>servlets.CommentServlet</servlet-class>
+    <servlet-name>SignUp</servlet-name>
+    <servlet-class>servlets.UserServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Comments</servlet-name>
-    <url-pattern>/Comments/*</url-pattern> 
+    <servlet-name>SignUp</servlet-name>
+    <url-pattern>/SignUp/*</url-pattern> 
   </servlet-mapping>
+  
+ 
+  <servlet>
+    <servlet-name>ShowFeed</servlet-name>
+    <servlet-class>servlets.ShowMessagesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowFeed</servlet-name>
+    <url-pattern>/ShowFeed/*</url-pattern> 
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>MyMessages</servlet-name>
+    <servlet-class>servlets.UserMessagesServletPicture</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MyMessages</servlet-name>
+    <url-pattern>/MyMessages/*</url-pattern> 
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>Comment</servlet-name>
+    <servlet-class>servlets.CommentsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Comment</servlet-name>
+    <url-pattern>/Comment/*</url-pattern> 
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Like</servlet-name>
+    <servlet-class>servlets.LikesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Like</servlet-name>
+    <url-pattern>/Like/*</url-pattern> 
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>Image</servlet-name>
+    <servlet-class>servlets.ImageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Image</servlet-name>
+    <url-pattern>/Image/*</url-pattern> 
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>Friends</servlet-name>
+    <servlet-class>servlets.FriendsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Friends</servlet-name>
+    <url-pattern>/Friends/*</url-pattern> 
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>UpdateInfo</servlet-name>
+    <servlet-class>servlets.ProfileServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateInfo</servlet-name>
+    <url-pattern>/UpdateInfo/*</url-pattern> 
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>VisitProfile</servlet-name>
+    <servlet-class>servlets.OtherInfoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>VisitProfile</servlet-name>
+    <url-pattern>/VisitProfile/*</url-pattern> 
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>Notifications</servlet-name>
+    <servlet-class>servlets.NotificationServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Notifications</servlet-name>
+    <url-pattern>/Notifications/*</url-pattern> 
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>Search</servlet-name>
+    <servlet-class>servlets.SearchServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Search</servlet-name>
+    <url-pattern>/Search/*</url-pattern> 
+  </servlet-mapping>
+  
+  
+  
+  
+  <filter>
+    <filter-name>CorsFilter</filter-name>
+    <filter-class>ClientServeur.CORSFilter</filter-class>
+ </filter>
+ <filter-mapping>
+    <filter-name>CorsFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+ </filter-mapping>
   
   <resource-ref>
  	<description>DB Connection</description>
