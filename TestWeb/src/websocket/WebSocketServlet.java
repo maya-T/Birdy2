@@ -1,4 +1,4 @@
-package essais;
+package websocket;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,14 +13,13 @@ import javax.servlet.http.HttpSession;
 
 @SuppressWarnings("serial")
 public class WebSocketServlet  extends HttpServlet {
-	public void doGet(HttpServletRequest req,HttpServletResponse res)throws 
-	IOException , ServletException{	
-       String usr = req.getParameter("username");
-       PrintWriter w = res.getWriter();
-       
-       if(usr != null) {
-    	   
-       }
-	}
+//	public void doGet(HttpServletRequest req,HttpServletResponse res)throws 
+//	IOException , ServletException{	
+//       String usr = req.getParameter("username");
+//       PrintWriter w = res.getWriter();     
+//       if(usr != null) {
+//    	   
+//       }
+//	}
 }
 

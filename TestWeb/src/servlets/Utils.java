@@ -14,12 +14,15 @@ public abstract class Utils {
             String line="";
             StringBuilder build = new StringBuilder();
             while ((line = reader.readLine()) != null) {
+        		System.out.println(line);
                 build.append(line);
             }
             result = build.toString();
         } catch (IOException e) { 
         	e.printStackTrace();
         }
+    	
+    	System.out.println(result);
     	try {
 			JSONObject obj = new JSONObject(result);
 			return obj;

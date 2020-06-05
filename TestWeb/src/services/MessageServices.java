@@ -11,6 +11,7 @@ import mapReduce.MapReduce;
 import tools.ErrorTools;
 import tools.UserTools;
 import tools.MessagesTools;
+import tools.SessionTools;
 
 public class MessageServices {
 	
@@ -29,6 +30,11 @@ public class MessageServices {
 			return ErrorTools.serviceRefused("Login inexistant", 1);
 		}
 		int id = UserTools.userID(login);
+		if(!SessionTools.activeSession(id)) {
+			UserServices.logout(login);
+			SessionTools.deleteSession(id);
+			return ErrorTools.serviceRefused("Session expirée", 5) ;
+		}
 		return MessagesTools.getUserMessages(id);
 		
 	}
@@ -42,6 +48,11 @@ public class MessageServices {
 			return ErrorTools.serviceRefused("Login inexistant", 1);
 		}
 		int id = UserTools.userID(login);
+		if(!SessionTools.activeSession(id)) {
+			UserServices.logout(login);
+			SessionTools.deleteSession(id);
+			return ErrorTools.serviceRefused("Session expirée", 5) ;
+		}
 		return MessagesTools.getUserNFriendsMessages(id);
 		
 	}
@@ -72,6 +83,11 @@ public class MessageServices {
 			return ErrorTools.serviceRefused("Login inexistant", 1);
 		}
 		int id = UserTools.userID(login);
+		if(!SessionTools.activeSession(id)) {
+			UserServices.logout(login);
+			SessionTools.deleteSession(id);
+			return ErrorTools.serviceRefused("Session expirée", 5) ;
+		}
 		MessagesTools.insertMessage(id,message,image);
 		return ErrorTools.serviceAccepted("message","New post added");
 	
@@ -114,6 +130,11 @@ public class MessageServices {
 			return ErrorTools.serviceRefused("Login inexistant", 1);
 		}
 		int idC = UserTools.userID(login);
+		if(!SessionTools.activeSession(idC)) {
+			UserServices.logout(login);
+			SessionTools.deleteSession(idC);
+			return ErrorTools.serviceRefused("Session expirée", 5) ;
+		}
 		MessagesTools.addComment(_id, idC, comment);
 		return ErrorTools.serviceAccepted();	
 	}
@@ -144,6 +165,11 @@ public class MessageServices {
 			return ErrorTools.serviceRefused("Message inexistant", 9);
 		}
 		int idL = UserTools.userID(login);
+		if(!SessionTools.activeSession(idL)) {
+			UserServices.logout(login);
+			SessionTools.deleteSession(idL);
+			return ErrorTools.serviceRefused("Session expirée", 5) ;
+		}
 		MessagesTools.addLike(_id, idL);
 		return ErrorTools.serviceAccepted();	
 	}
@@ -160,6 +186,11 @@ public class MessageServices {
 			return ErrorTools.serviceRefused("Like inexistant", 10);
 		}
 		MessagesTools.unLike(_id, idL);
+		if(!SessionTools.activeSession(idL)) {
+			UserServices.logout(login);
+			SessionTools.deleteSession(idL);
+			return ErrorTools.serviceRefused("Session expirée", 5) ;
+		}
 		return ErrorTools.serviceAccepted();	
 	}
 	

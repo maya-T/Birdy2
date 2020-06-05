@@ -104,7 +104,8 @@ public class UserTools {
 		} catch (SQLException e) {			
 			e.printStackTrace();	
 		}	
-	}  
+	} 
+	
 	public static JSONObject getUserInfo(int id) {
 		JSONObject obj = new JSONObject();
 		try {

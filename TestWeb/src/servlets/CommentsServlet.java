@@ -29,6 +29,10 @@ public class CommentsServlet extends HttpServlet {
 			String _id = (String) params.get("_id");
 			String login=(String) params.get("login");
 			String comment =(String) params.get("comment");
+		
+//			String _id = (String) req.getParameter("_id");
+//			String login=(String) req.getParameter("login");
+//			String comment =(String) req.getParameter("comment");
 			System.out.println(login+" "+comment);
 
 			JSONObject obj = services.MessageServices.addComment(_id, login, comment);
@@ -59,31 +63,6 @@ public class CommentsServlet extends HttpServlet {
 			//erreur parametre manquant
 		}
 
-	}
-
-	public void doDelete(HttpServletRequest req,HttpServletResponse res)throws 
-	IOException , ServletException{	
-
-		String path = req.getPathInfo();
-		StringTokenizer tokenizer = new StringTokenizer(path,"/");
-		Map<String,Object> params = new HashMap<String,Object>();
-		int nb = tokenizer.countTokens();
-		if ( nb == 4 ) {
-			while(tokenizer.hasMoreTokens()) {
-
-				params.put(tokenizer.nextToken(), tokenizer.nextToken());
-
-			}
-
-			String _id = (String) params.get("_id");
-			int _idC = (int) params.get("_idC");
-			JSONObject msg = services.MessageServices.deleteComment(_id, _idC);
-			PrintWriter w = res.getWriter();
-			w.print(msg.toString());
-
-		}else {
-			//erreur parametre manquant
-		}
 	}
 
 }

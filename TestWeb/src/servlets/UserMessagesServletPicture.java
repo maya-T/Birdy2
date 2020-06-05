@@ -69,14 +69,19 @@ public class UserMessagesServletPicture extends HttpServlet{
 				FileItem fi = (FileItem)i.next();
 				System.out.println(fi);
 				if ( ! fi.isFormField () ) {
+					
 					String fieldName = fi.getFieldName();
 					String fileName = fi.getName();
 					String contentType = fi.getContentType();
 					boolean isInMemory = fi.isInMemory();
 					long sizeInBytes = fi.getSize();
-					System.out.println(fieldName+" "+fileName+" "+contentType+" "+isInMemory+" "+sizeInBytes);     
-					file = new File( filePath +"/"+ fileName) ; 
-					fi.write( file ) ;
+					System.out.println(fieldName+" "+fileName+" "+contentType+" "+isInMemory+" "+sizeInBytes);
+					if(!fileName.isEmpty()) {
+						file = new File( filePath +"/"+ fileName) ; 
+						fi.write( file );
+					}else {
+						System.out.println("null");
+					}
 					
 				}else {
 				
@@ -90,6 +95,7 @@ public class UserMessagesServletPicture extends HttpServlet{
                       	
 				}
 			}
+			System.out.println(login+content);
             JSONObject obj = MessageServices.addMessage(login,content,file);		
 			PrintWriter w = res.getWriter();
 			w.print(obj.toString());

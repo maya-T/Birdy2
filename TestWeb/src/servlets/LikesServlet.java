@@ -28,6 +28,8 @@ public class LikesServlet extends HttpServlet {
 		try {
 			String _id = (String) params.get("_id");
 			String login=(String) params.get("login");
+//			String _id = (String) req.getParameter("_id");
+//			String login=(String) req.getParameter("login");
 			
 			JSONObject obj = services.MessageServices.like(_id, login);
 			PrintWriter w = res.getWriter();

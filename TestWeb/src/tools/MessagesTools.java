@@ -136,10 +136,6 @@ public class MessagesTools {
 		return result;
 	}
 
-	public static JSONObject getMessages(int id, String filter) {
-		return null;
-	}
-
 	public static JSONObject getMessages() {
 
 		MongoClient mongo = Database.getMongoClient();
@@ -215,10 +211,10 @@ public class MessagesTools {
 
 		MongoClient mongo = Database.getMongoClient();
 		try {
-			
+			System.out.println("add msg");
 			MongoDatabase db = mongo.getDatabase(DBStatic.mongo_bd);
 			MongoCollection<Document> coll = db.getCollection("message");
-
+      
 			Document doc = new Document();
 			doc.append("author_id", id);
 			doc.append("text", message);
@@ -245,6 +241,7 @@ public class MessagesTools {
 				
 				
 			}else {
+				System.out.println("null image");
 				doc.append("image","none");
 			}
 			

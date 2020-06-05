@@ -59,6 +59,8 @@ public class FriendsServlet extends HttpServlet {
 		try {
 			String p1 = (String) params.get("follower");
 			String p2 = (String) params.get("followed");
+//			String p1 = (String) req.getParameter("follower");
+//			String p2 = (String) req.getParameter("followed");
 			JSONObject msg=FriendServices.addFriend(p1,p2);
 			PrintWriter w = res.getWriter();
 			w.print(msg.toString());

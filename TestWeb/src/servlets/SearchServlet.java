@@ -24,12 +24,11 @@ public class SearchServlet extends HttpServlet{
 			
 			try {
 				String filter = (String) params.get("filter");
-				System.out.println(filter);
+//		        String filter = (String) req.getParameter("filter");
+				System.out.println("filter"+filter);
 				JSONObject msg = services.MessageServices.searchMessages(filter);
 				PrintWriter w = res.getWriter();
 				w.print(msg.toString());
-				
-//				w.print("hello");
 				
 			} catch (JSONException e) {
 				e.printStackTrace();

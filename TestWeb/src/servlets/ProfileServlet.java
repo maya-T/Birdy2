@@ -35,9 +35,6 @@ public class ProfileServlet extends HttpServlet {
 		filePath = " /Users/Maya/Documents/apache-tomcat-9.0.30/webapps/temp"; 
 	}
 
-
-	
-	
 	public void doPost(HttpServletRequest req,HttpServletResponse res)throws 
 	IOException , ServletException{	
 

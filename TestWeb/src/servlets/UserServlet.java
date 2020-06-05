@@ -26,6 +26,11 @@ public class UserServlet extends HttpServlet  {
 			String email = (String) params.get("email");
 			String passwd = (String) params.get("password");
 			String login = (String) params.get("login");
+//			String fname = (String) req.getParameter("firstname");
+//			String lname = (String) req.getParameter("lastname");
+//			String email = (String) req.getParameter("email");
+//			String passwd = (String)req.getParameter("password");
+//			String login = (String) req.getParameter("login");
 			JSONObject msg = services.UserServices. createUser(fname,lname,email,passwd,login);
 			PrintWriter w = res.getWriter();
 			w.print(msg.toString());

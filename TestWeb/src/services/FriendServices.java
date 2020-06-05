@@ -23,7 +23,16 @@ public class FriendServices {
 		if(!UserTools.isUser(login)) {
 			return ErrorTools.serviceRefused("Login inexistant", 1);
 		}
+		
+		
 		int id = UserTools.userID(login);
+		
+		if(!SessionTools.activeSession(id)) {
+			UserServices.logout(login);
+			SessionTools.deleteSession(id);
+			return ErrorTools.serviceRefused("Session expirée", 5) ;
+		}
+		
 		return FriendTools.listFollowing(id);
 		
 	}
@@ -38,6 +47,12 @@ public class FriendServices {
 			return ErrorTools.serviceRefused("Login inexistant", 1);
 		}
 		int id = UserTools.userID(login);
+		
+		if(!SessionTools.activeSession(id)) {
+			UserServices.logout(login);
+			SessionTools.deleteSession(id);
+			return ErrorTools.serviceRefused("Session expirée", 5) ;
+		}
 		return FriendTools.listFollowers(id);
 		
 	}
@@ -53,6 +68,12 @@ public class FriendServices {
 			return ErrorTools.serviceRefused("Login inexistant", 1);
 		}
 		int id = UserTools.userID(login);
+		
+		if(!SessionTools.activeSession(id)) {
+			UserServices.logout(login);
+			SessionTools.deleteSession(id);
+			return ErrorTools.serviceRefused("Session expirée", 5) ;
+		}
 		return FriendTools.listNotifications(id);
 		
 	}
@@ -69,6 +90,12 @@ public static JSONObject setNotificationsToSeen(String login) {
 			return ErrorTools.serviceRefused("Login inexistant", 1);
 		}
 		int id = UserTools.userID(login);
+		
+		if(!SessionTools.activeSession(id)) {
+			UserServices.logout(login);
+			SessionTools.deleteSession(id);
+			return ErrorTools.serviceRefused("Session expirée", 5) ;
+		}
 		FriendTools.setNotificationsToSeen(id);
 		return ErrorTools.serviceAccepted();
 	}
@@ -84,6 +111,12 @@ public static JSONObject setNotificationsToSeen(String login) {
 			return ErrorTools.serviceRefused("Login inexistant", 1);
 		}
 		int id = UserTools.userID(login);
+		
+		if(!SessionTools.activeSession(id)) {
+			UserServices.logout(login);
+			SessionTools.deleteSession(id);
+			return ErrorTools.serviceRefused("Session expirée", 5) ;
+		}
 		JSONObject flwrs = FriendTools.listFollowers(id);
 		JSONObject flwng = FriendTools.listFollowing(id);
 		JSONObject res = new JSONObject();
@@ -107,6 +140,12 @@ public static JSONObject setNotificationsToSeen(String login) {
 			return ErrorTools.serviceRefused("Login inexistant", 1);
 		}
 		int id = UserTools.userID(login);
+		
+		if(!SessionTools.activeSession(id)) {
+			UserServices.logout(login);
+			SessionTools.deleteSession(id);
+			return ErrorTools.serviceRefused("Session expirée", 5) ;
+		}
 		int id2 = UserTools.userID(loginFriend);
 		if (FriendTools.isFriend(id,id2)) {
 			return ErrorTools.serviceRefused("Deja amis", 4);
@@ -128,6 +167,12 @@ public static JSONObject setNotificationsToSeen(String login) {
 			return ErrorTools.serviceRefused("Login inexistant", 1);
 		}
 		int id = UserTools.userID(login);
+		
+		if(!SessionTools.activeSession(id)) {
+			UserServices.logout(login);
+			SessionTools.deleteSession(id);
+			return ErrorTools.serviceRefused("Session expirée", 5) ;
+		}
 		int id2 = UserTools.userID(loginFriend);
 		if (!FriendTools.isFriend(id,id2)) {
 			
@@ -149,7 +194,13 @@ public static JSONObject setNotificationsToSeen(String login) {
 				return ErrorTools.serviceRefused("Login inexistant", 1);
 			}
 			
-			int id=UserTools.userID(login);		
+			int id=UserTools.userID(login);	
+			
+			if(!SessionTools.activeSession(id)) {
+				UserServices.logout(login);
+				SessionTools.deleteSession(id);
+				return ErrorTools.serviceRefused("Session expirée", 5) ;
+			}
 			int otherId=UserTools.userID(otherLogin);	
 			JSONObject info = UserTools.getUserInfo(otherId);	
 			boolean isFriend = FriendTools.isFriend(id, otherId);

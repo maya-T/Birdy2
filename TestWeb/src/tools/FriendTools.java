@@ -165,11 +165,7 @@ public class FriendTools {
 					int isseen = res.getInt("seen");
 					String friend = res.getString("login");
 					if(isseen == 0 ) unseen.add(friend);
-					else seen.add(friend);
-					
-					
-					
-	
+					else seen.add(friend); 
 				}
 				o.put("seen", seen);
 				o.put("unseen", unseen);

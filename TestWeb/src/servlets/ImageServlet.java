@@ -38,6 +38,7 @@ import org.apache.commons.codec.binary.Base64InputStream;
 @SuppressWarnings("serial")
 
 /////// not used 
+
 public class ImageServlet extends HttpServlet {
    
    private boolean isMultipart;

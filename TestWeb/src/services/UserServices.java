@@ -51,11 +51,17 @@ public class UserServices {
 		return null;
 
 	}
-//	public static JSONObject logout(String login){
-//			String id=UserTools.userID(login);
-//			//pour l'instant on n'a qu'une seule session ouverte a la fois, si cd n'est pas le cas passer key, puisque un id peut avoir plusieurs key
-//			UserTools.deleteSession(id);
-//	}
+	public static JSONObject logout(String login){
+			if(login==null) {
+				return ErrorTools.serviceRefused("Mauvais argument", 0);
+			}
+			if(!UserTools.isUser(login)) {
+				return ErrorTools.serviceRefused("Login inexistant", 1);
+			}
+			int id=UserTools.userID(login);
+		    SessionTools.deleteSession(id)   ;
+		    return ErrorTools.serviceAccepted();
+	}
 	
 	public static JSONObject updateBio(String login, String bio) {
 		if( login==null || bio==null) {
@@ -66,6 +72,11 @@ public class UserServices {
 		}
 
 		int id = UserTools.userID(login);
+		if(!SessionTools.activeSession(id)) {
+			UserServices.logout(login);
+			SessionTools.deleteSession(id);
+			return ErrorTools.serviceRefused("Session expirée", 5) ;
+		}
 		UserTools.updateBio(id, bio);
 		return ErrorTools.serviceAccepted("message","bio modifiee");
 	}
@@ -79,6 +90,11 @@ public class UserServices {
 		}
 
 		int id = UserTools.userID(login);
+		if(!SessionTools.activeSession(id)) {
+			UserServices.logout(login);
+			SessionTools.deleteSession(id);
+			return ErrorTools.serviceRefused("Session expirée", 5) ;
+		}
 		UserTools.updateAdress(id, adress);
 		return ErrorTools.serviceAccepted("message","adresse modifiee");
 	}
@@ -92,6 +108,11 @@ public class UserServices {
 		}
 
 		int id = UserTools.userID(login);
+		if(!SessionTools.activeSession(id)) {
+			UserServices.logout(login);
+			SessionTools.deleteSession(id);
+			return ErrorTools.serviceRefused("Session expirée", 5) ;
+		}
 		UserTools.updateWebsite(id, website);
 		return ErrorTools.serviceAccepted("message","website modifie");
 	}
@@ -110,6 +131,11 @@ public class UserServices {
 		}
 
 		int id = UserTools.userID(login);
+		if(!SessionTools.activeSession(id)) {
+			UserServices.logout(login);
+			SessionTools.deleteSession(id);
+			return ErrorTools.serviceRefused("Session expirée", 5) ;
+		}
 		UserTools.updatePicture(id, file);
 		return ErrorTools.serviceAccepted("message","photo modifiee");
 	}
